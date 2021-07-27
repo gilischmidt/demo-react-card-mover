@@ -9,7 +9,9 @@ export const userSlice = createSlice({
     initialState,
     reducers: {
         add(state, user) {
-            state.connectedUsers.push(user.payload);
+            if (state.connectedUsers.find(u => u.id === user.payload.id) === undefined) {
+                state.connectedUsers.push(user.payload);
+            }
         },
         remove(state, user) {
             state.connectedUsers = state.connectedUsers.filter(u => u.id !== user.payload.id);

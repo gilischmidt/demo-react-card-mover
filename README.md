@@ -1,5 +1,5 @@
 
-# test-card-mover
+# demo-react-card-mover
 
 **This is a demo project containing a Kanban like web app.**
 
@@ -36,4 +36,6 @@ Link: https://card-mover.herokuapp.com/
 
 
 ### Deploy
-The branch `prod` is deployed automatically when a new commit occurs.
+1. Run `npm run install` to install both React and Node.js dependencies.
+1. Run `npm run build` to compile the React app
+2. Run `npm run start`

@@ -16,7 +16,7 @@ function render() {
         <Route
             key={route.path}
             path={route.path}
-            exact
+            exact={true}
             component={route.component}>
         </Route>
     ));

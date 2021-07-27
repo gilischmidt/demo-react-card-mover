@@ -19,8 +19,13 @@ export default class BoardSocket {
                 };
 
                 self.service.addUser(board, user);
+
                 socket.join(board);
                 socket.broadcast.to(board).emit('USERS:CONNECTED', user);
+            });
+
+            socket.on("USER:DISCONNECT", () => {
+                socket.disconnect(false);
             });
 
             socket.on("disconnect", () => {

@@ -4,6 +4,7 @@ import {Button, TextField, Typography} from "@material-ui/core";
 import {store} from "../../redux/store";
 import {sessionSlice} from "../../redux/slices/sessionSlice";
 import {useHistory} from "react-router-dom";
+import {useSelector} from "react-redux";
 
 function CreateBoardPage(props) {
     const history = useHistory();
@@ -12,6 +13,7 @@ function CreateBoardPage(props) {
         ev.preventDefault();
         store.dispatch(sessionSlice.actions.setCurrentUser(ev.target.name.value));
         store.dispatch(sessionSlice.actions.setCurrentBoard(ev.target.board.value));
+
         history.push('/board/' + store.getState().session.currentBoard.id);
     }
 

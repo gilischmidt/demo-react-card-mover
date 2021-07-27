@@ -17,6 +17,9 @@ function BoardPage() {
     let {id} = useParams();
     const history = useHistory();
     const [showErrorModal, setShowErrorModal] = useState(false);
+    const boardName = store.getState().session.currentBoard ? store.getState().session.currentBoard.name : '';
+
+    const currentPage = history.location.pathname;
 
     const handleSocketError = async (error) => {
         switch (error) {
@@ -37,16 +40,17 @@ function BoardPage() {
     }
 
     const disconnect = () => {
-        store.dispatch(sessionSlice.actions.setCurrentUser(null));
+        cleanUp(true);
         history.push('/join/' + id);
     }
 
     const refreshPage = () => {
+        cleanUp(false);
         history.go(0);
     }
 
     const copyUrl = () => {
-        navigator.clipboard.writeText(window.location.href);
+        navigator.clipboard.writeText(window.location.origin + '/join/' + encodeURIComponent(id));
 
         store.dispatch(sessionSlice.actions.setToast({
             open: true,
@@ -76,6 +80,17 @@ function BoardPage() {
             });
     }
 
+    const cleanUp = (disconnectUser) => {
+        BoardWebsocket.disconnect();
+
+        store.dispatch(sessionSlice.actions.setCurrentBoard(null));
+        store.dispatch(userSlice.actions.sync([]));
+
+        if (disconnectUser) {
+            store.dispatch(sessionSlice.actions.setCurrentUser(null));
+        }
+    }
+
     useEffect(async () => {
         const board = store.getState().session.currentBoard;
         const user = store.getState().session.currentUser;
@@ -94,13 +109,18 @@ function BoardPage() {
         });
 
         await getInitialData();
+        store.dispatch(userSlice.actions.add(user));
         store.dispatch(sessionSlice.actions.setShowBackdrop(false));
 
+        const unlisten = history.listen(location => {
+            if (currentPage !== location.pathname) {
+                cleanUp(true);
+            }
+
+            unlisten();
+        });
     }, []);
 
-    history.listen(location => {
-        BoardWebsocket.disconnect();
-    })
 
     return (
         <>
@@ -118,7 +138,7 @@ function BoardPage() {
                     color: 'white',
                     fontSize: '1.5rem'
                 }}>
-                    Card Mover <Button style={{fontSize: '0.8rem', color: '#bdbdbd', marginRight: 5}} onClick={copyUrl}>
+                    CM - {boardName} <Button style={{fontSize: '0.8rem', color: '#bdbdbd', marginRight: 5}} onClick={copyUrl}>
                     (Click here to copy invite link)
                 </Button>
 

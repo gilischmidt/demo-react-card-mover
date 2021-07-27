@@ -25,11 +25,15 @@ export const sessionSlice = createSlice({
         },
 
         setCurrentBoard(state, board) {
-            const name = board.payload;
-            state.currentBoard = {
-                name: name,
-                id: encodeURIComponent(name)
-            };
+            if (board.payload) {
+                const name = board.payload;
+                state.currentBoard = {
+                    name: name,
+                    id: encodeURIComponent(name)
+                };
+            } else {
+                state.currentBoard = null;
+            }
         },
 
         setShowBackdrop(state, show) {

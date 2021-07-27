@@ -12,7 +12,6 @@ function Board(props) {
     const position = useSelector((state) => state.card.position);
 
     const moveCardToColumn = ({targetColumnId}) => {
-        console.log(targetColumnId);
         BoardWebsocket.emit(boardWebsocketActions.CARD_MOVED, targetColumnId);
     }
 

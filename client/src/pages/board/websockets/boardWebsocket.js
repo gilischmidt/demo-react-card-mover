@@ -69,21 +69,25 @@ const BoardWebsocket = {
     },
 
     connect: (board, errorCallback = null) => {
-        onErrorCallback = errorCallback ? errorCallback : () => {
-        };
-
-        socket = socketIOClient('/',{
-            reconnectionAttempts: 10,
-            timeout: 10000
-        });
-
-        setListeners();
-        setErrorListeners();
-
         return new Promise(resolve => {
+            onErrorCallback = errorCallback ? errorCallback : () => {
+            };
+
+            socket = socketIOClient('/', {
+                autoConnect: false,
+                reconnectionAttempts: 10,
+                timeout: 5000
+            });
+
+            setListeners();
+            setErrorListeners();
+
             socket.on('connect', () => {
+                socket.off('connect');
                 resolve();
             });
+
+            socket.connect();
         });
     },
 
@@ -91,7 +95,11 @@ const BoardWebsocket = {
         try {
             onErrorCallback = () => {
             };
-            socket.disconnect();
+
+            if (socket && socket.connected === true) {
+                socket.emit('USER:DISCONNECT');
+                socket.disconnect();
+            }
         } catch (e) {
         }
     }
