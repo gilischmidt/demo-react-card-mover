@@ -19,13 +19,13 @@ Link: https://card-mover.herokuapp.com/
 
 ### Development
 
-1. Clone project
+1. Clone the project
 2. Run `npm run install` at root folder to install both React and Node.js dependencies
 3. Run `npm run dev` to serve the backend
-5. In another terminal, run `cd client` and then `npm run start` to serve the React app
+5. On another terminal, run `cd client` and then `npm run start` to serve the React app
 6. Done!
 
-* If you face any problems with websockets, run instead `npm run start`. Note that with this the backend won't be recompiled automatically if you change something.
+* If you face any problems with websockets, run `npm run start` to serve the backend. Note that with this the backend won't be recompiled automatically if you change something.
 * Default backend server address is `localhost:5000`
 * Default React app address is `locahost:3000`
 * There is a proxy that redirects the React app to the backend, so that the websockets work properly
