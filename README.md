@@ -26,7 +26,7 @@ Link: https://card-mover.herokuapp.com/
 6. Done!
 
 * If you face any problems with websockets, run instead `npm run start`. Note that with this the backend won't be recompiled automatically if you change something.
-* Default backend server address is  `localhost:5000`
+* Default backend server address is `localhost:5000`
 * Default React app address is `locahost:3000`
 * There is a proxy that redirect the React app to the backend, so that the websockets work properly
 
@@ -39,3 +39,6 @@ Link: https://card-mover.herokuapp.com/
 1. Run `npm run install` to install both React and Node.js dependencies.
 1. Run `npm run build` to compile the React app
 2. Run `npm run start`
+3. Done!
+
+* The default address to acess the app is `localhost:5000`
